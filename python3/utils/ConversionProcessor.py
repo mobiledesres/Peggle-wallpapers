@@ -1,6 +1,7 @@
 from typing import List
+import os
+from os.path import abspath, dirname, isdir, join, basename, splitext
 import glob
-from os.path import abspath, join, basename, splitext
 import subprocess as sp
 from multiprocessing import Process
 
@@ -83,6 +84,7 @@ class ConversionProcessor:
         :param input_img: Path of input image.
         :param output_img: Path of output image.
             If output extension is not .png, it will be corrected automatically.
+            Output directory will be created if non-existent.
         :return: Return code for conversion.
         """
 
@@ -90,9 +92,16 @@ class ConversionProcessor:
         input_ext = splitext(input_img)[1]
         output_img = f'{splitext(output_img)[0]}.png'
 
+        # make directory if non-existent
+        output_dir = dirname(output_img)
+        if not isdir(output_dir):
+            os.makedirs(output_dir, exist_ok=True)
+
         if input_ext in jpeg2000_exts:
+            # convert from jpeg2000
             return ConversionProcessor.__convert_from_jpeg2000(input_img, output_img)
         else:
+            # convert from jpg / jpeg to png
             return ConversionProcessor.__convert_jpg_jpeg_to_png(input_img, output_img)
 
     def convert_all(self, output_dir: str,
