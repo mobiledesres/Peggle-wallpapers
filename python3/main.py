@@ -13,7 +13,7 @@ def main():
 
     # batch conversion
     conversion_processor = ConversionProcessor(args.input_dir)
-    conversion_processor.convert_all(args.output_dir)
+    conversion_processor.convert_all_to_png(args.output_dir)
 
 
 if __name__ == '__main__':

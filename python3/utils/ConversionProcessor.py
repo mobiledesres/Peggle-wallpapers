@@ -104,13 +104,13 @@ class ConversionProcessor:
             # convert from jpg / jpeg to png
             return ConversionProcessor.__convert_jpg_jpeg_to_png(input_img, output_img)
 
-    def convert_all(self, output_dir: str,
-                    output_ext: str = '.png') -> None:
+    def convert_all_to_png(self, output_dir: str) -> None:
         """
-        Convert all jp2 to output format (default is .png).
+        Convert all .jpg / .jpeg / .jp2 to .png format.
         :return: None.
         """
 
+        output_ext = '.png'
         all_processes: List[Process] = []
 
         for input_img in [*self.__jp2_images, *self.__jpg_jpeg_images]:
