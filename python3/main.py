@@ -2,7 +2,7 @@ from utils.ConversionProcessor import ConversionProcessor
 
 
 def main():
-    conversion_processor = ConversionProcessor('../Peggle Nights Deluxe/jp2')
+    conversion_processor = ConversionProcessor('../Peggle Nights Deluxe')
     conversion_processor.convert_all(output_dir='../Peggle Nights Deluxe/png')
 
 
