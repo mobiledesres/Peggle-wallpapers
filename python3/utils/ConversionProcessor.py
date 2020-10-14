@@ -40,8 +40,10 @@ class ConversionProcessor:
         :param input_dir: input directory.
         :return: the list of jpg & jpeg files.
         """
-        self.__jpg_jpeg_images = self.get_files_by_ext(input_dir, '.jpg') + \
-            self.get_files_by_ext(input_dir, '*.jpeg')
+        self.__jpg_jpeg_images = [
+            *self.get_files_by_ext(input_dir, '.jpg'),
+            *self.get_files_by_ext(input_dir, '.jpeg')
+        ]
         return self.__jpg_jpeg_images
 
     @staticmethod
