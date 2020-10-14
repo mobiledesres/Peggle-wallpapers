@@ -37,6 +37,11 @@ class ConversionProcessor:
         return self.__jp2_images
 
     def __get_jpg_files(self, input_dir: str) -> List[str]:
+        """
+        Get the collection of jpg files.
+        :param input_dir: input directory.
+        :return: the list of jpg files.
+        """
         self.__jpg_images = self.get_files_by_ext(input_dir, '.jpg')
         return self.__jpg_images
 
