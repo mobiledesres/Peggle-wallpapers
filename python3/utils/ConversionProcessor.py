@@ -11,7 +11,7 @@ class ConversionProcessor:
 
     def __init__(self, input_dir: str):
         self.__jp2_images = self.__get_jp2_files(input_dir)
-        self.__jpg_images = self.__get_jpg_files(input_dir)
+        self.__jpg_jpeg_images = self.__get_jpg_jpeg_files(input_dir)
 
     @staticmethod
     def get_files_by_ext(input_dir: str, ext: str) -> List[str]:
@@ -36,14 +36,15 @@ class ConversionProcessor:
         self.__jp2_images = self.get_files_by_ext(input_dir, '.jp2')
         return self.__jp2_images
 
-    def __get_jpg_files(self, input_dir: str) -> List[str]:
+    def __get_jpg_jpeg_files(self, input_dir: str) -> List[str]:
         """
-        Get the collection of jpg files.
+        Get the collection of jpg & jpeg files.
         :param input_dir: input directory.
-        :return: the list of jpg files.
+        :return: the list of jpg & jpeg files.
         """
-        self.__jpg_images = self.get_files_by_ext(input_dir, '.jpg')
-        return self.__jpg_images
+        self.__jpg_jpeg_images = self.get_files_by_ext(input_dir, '.jpg') + \
+            self.get_files_by_ext(input_dir, '*.jpeg')
+        return self.__jpg_jpeg_images
 
     @staticmethod
     def __convert_from_jpeg2000(input_file: str, output_file: str) -> int:
