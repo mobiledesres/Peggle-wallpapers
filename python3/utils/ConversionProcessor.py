@@ -25,7 +25,7 @@ class ConversionProcessor:
         return jp2_files_list
 
     @staticmethod
-    def convert(input_file: str, output_file: str) -> None:
+    def convert(input_file: str, output_file: str) -> int:
         """
         Read in a jpeg2000 image, and convert to another format.
         Supported input formats: .j2k, .jp2, .j2c, .jpt
@@ -34,11 +34,11 @@ class ConversionProcessor:
 
         :param input_file: Path of input file.
         :param output_file: Path of output file.
-        :return: None.
+        :return: the return code of completed process.
         """
 
-        sp.run([ConversionProcessor.convert_exec, '-i', input_file,
-                '-o', output_file])
+        return sp.run([ConversionProcessor.convert_exec, '-i', input_file,
+                       '-o', output_file]).returncode
 
     def convert_all(self, output_dir: str,
                     output_ext: str = '.png') -> None:
@@ -51,10 +51,7 @@ class ConversionProcessor:
 
         for jp2_image in self.__jp2_images:
             output_file = f'{join(output_dir, splitext(basename(jp2_image))[0])}{output_ext}'
-            process = Process(
-                target=self.convert,
-                args=(jp2_image, output_file)
-            )
+            process = Process(target=self.convert, args=(jp2_image, output_file))
             all_processes.append(process)
             process.start()
 
