@@ -1,13 +1,17 @@
-PeggleDeluxe = Peggle\ Deluxe
-PeggleNightsDeluxe = Peggle\ Nights\ Deluxe
-PNG = png
+PeggleDeluxe := Peggle\ Deluxe
+PeggleNightsDeluxe := Peggle\ Nights\ Deluxe
+PNG := png
 
 CONVERT_EXEC = python3/main.py
 
+define CONVERT_DIRS
+python3 $(CONVERT_EXEC) --input-dir $(1) --output-dir $(2)
+endef
+
 .PHONY: all
 all:
-	time python3 $(CONVERT_EXEC) --input-dir $(PeggleDeluxe) --output-dir $(PeggleDeluxe)/$(PNG)
-	time python3 $(CONVERT_EXEC) --input-dir $(PeggleNightsDeluxe) --output-dir $(PeggleNightsDeluxe)/$(PNG)
+	$(call CONVERT_DIRS,$(PeggleDeluxe),$(PeggleDeluxe)/$(PNG))
+	$(call CONVERT_DIRS,$(PeggleNightsDeluxe),$(PeggleNightsDeluxe)/$(PNG))
 
 .PHONY: clean
 clean:
