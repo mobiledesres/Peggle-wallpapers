@@ -3,7 +3,8 @@ import os
 from os.path import abspath, dirname, isdir, join, basename, splitext
 import glob
 import subprocess as sp
-from multiprocessing import Process
+
+from utils.ParallelProcessor import ParallelProcessor
 
 
 class FileConverter:
@@ -114,15 +115,18 @@ class FileConverter:
         """
 
         output_ext = '.png'
-        all_processes: List[Process] = []
 
-        for input_img in [*self.__jp2_images, *self.__jpg_jpeg_images]:
+        # get all output images
+        input_images: List[str] = \
+            [*self.__jp2_images, *self.__jpg_jpeg_images]
+        output_images: List[str] = []
+        for input_img in input_images:
             output_img = join(output_dir, splitext(basename(input_img))[0])
             output_img = f'{output_img}{output_ext}'
-            process = Process(target=self.convert_to_png,
-                              args=(input_img, output_img))
-            all_processes.append(process)
-            process.start()
+            output_images.append(output_img)
 
-        for process in all_processes:
-            process.join()
+        # batch conversion
+        ParallelProcessor.convert_all(
+            input_images, output_images,
+            convert_func=FileConverter.convert_to_png
+        )
