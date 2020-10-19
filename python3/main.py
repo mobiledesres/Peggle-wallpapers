@@ -1,7 +1,7 @@
 import sys
 import argparse
 
-from utils.ConversionProcessor import ConversionProcessor
+from utils.FileConverter import FileConverter
 
 
 def main():
@@ -12,8 +12,8 @@ def main():
     args = arg_parser.parse_args(sys.argv[1:])
 
     # batch conversion
-    conversion_processor = ConversionProcessor(args.input_dir)
-    conversion_processor.convert_all_to_png(args.output_dir)
+    file_converter = FileConverter(args.input_dir)
+    file_converter.convert_all_to_png(args.output_dir)
 
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@ import subprocess as sp
 from multiprocessing import Process
 
 
-class ConversionProcessor:
+class FileConverter:
 
     def __init__(self, input_dir: str):
         self.__jp2_images = self.__get_jp2_files(input_dir)
@@ -48,7 +48,8 @@ class ConversionProcessor:
         return self.__jpg_jpeg_images
 
     @staticmethod
-    def __convert_from_jpeg2000(input_img: str, output_img: str) -> int:
+    def __convert_from_jpeg2000(input_img: str, output_img: str) \
+            -> sp.CompletedProcess:
         """
         Read in a jpeg2000 image, and convert it to another image type.
         See "man opj_decompress.1" for more details.
@@ -62,10 +63,11 @@ class ConversionProcessor:
         convert_exec = 'opj_decompress'
         output_img = abspath(output_img)  # output absolute path in console
         return sp.run([convert_exec, '-i', input_img,
-                       '-o', output_img]).returncode
+                       '-o', output_img])
 
     @staticmethod
-    def __convert_jpg_jpeg_to_png(input_img: str, output_img: str) -> int:
+    def __convert_jpg_jpeg_to_png(input_img: str, output_img: str) \
+            -> sp.CompletedProcess:
         """
         Convert from jpg / jpeg to png.
         See "man convert.1" for more details.
@@ -75,10 +77,11 @@ class ConversionProcessor:
         """
         convert_exec = 'convert-im6.q16'
         return sp.run([convert_exec, '-verbose',
-                       input_img, output_img]).returncode
+                       input_img, output_img])
 
     @staticmethod
-    def convert_to_png(input_img: str, output_img: str) -> int:
+    def convert_to_png(input_img: str, output_img: str) \
+            -> sp.CompletedProcess:
         """
         Convert input image to png.
         :param input_img: Path of input image.
@@ -99,10 +102,10 @@ class ConversionProcessor:
 
         if input_ext in jpeg2000_exts:
             # convert from jpeg2000
-            return ConversionProcessor.__convert_from_jpeg2000(input_img, output_img)
+            return FileConverter.__convert_from_jpeg2000(input_img, output_img)
         else:
             # convert from jpg / jpeg to png
-            return ConversionProcessor.__convert_jpg_jpeg_to_png(input_img, output_img)
+            return FileConverter.__convert_jpg_jpeg_to_png(input_img, output_img)
 
     def convert_all_to_png(self, output_dir: str) -> None:
         """
