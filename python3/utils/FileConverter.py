@@ -63,7 +63,7 @@ class FileConverter:
         """
         convert_exec = 'opj_decompress'
         output_img = abspath(output_img)  # output absolute path in console
-        return sp.run([convert_exec, '-i', input_img,
+        return sp.run([convert_exec, '-quiet', '-i', input_img,
                        '-o', output_img])
 
     @staticmethod
@@ -77,8 +77,7 @@ class FileConverter:
         :return: the return code of completed process.
         """
         convert_exec = 'convert-im6.q16'
-        return sp.run([convert_exec, '-verbose',
-                       input_img, output_img])
+        return sp.run([convert_exec, '-quiet', input_img, output_img])
 
     @staticmethod
     def convert_to_png(input_img: str, output_img: str) \

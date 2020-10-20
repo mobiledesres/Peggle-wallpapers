@@ -1,4 +1,5 @@
 from typing import List, Callable
+from os.path import abspath
 import subprocess as sp
 from multiprocessing import Process, Value
 
@@ -32,7 +33,9 @@ class ParallelProcessor:
         else:
             failure_count.value += 1
 
-        print(f'Success: {success_count.value} / {total_count}; '
+        print(f'[{"SUCCESS" if result else "FAILURE"}] '
+              f'"{abspath(input_file)}"\n'
+              f'Success: {success_count.value} / {total_count}; '
               f'Failure: {failure_count.value} / {total_count}')
         return result
 
