@@ -36,7 +36,11 @@ class ParallelProcessor:
         print(f'[{"SUCCESS" if result else "FAILURE"}] '
               f'"{abspath(input_file)}"\n'
               f'Success: {success_count.value} / {total_count}; '
-              f'Failure: {failure_count.value} / {total_count}')
+              f'Failure: {failure_count.value} / {total_count}',
+              end='\r')
+        if success_count.value + failure_count.value == total_count:
+            print()
+
         return result
 
     @staticmethod
