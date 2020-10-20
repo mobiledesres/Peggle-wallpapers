@@ -12,7 +12,8 @@ class ParallelProcessor:
     def __check_success(input_file: str, output_file: str,
                         convert_func: ConvertFunc,
                         total_count: int,
-                        success_count: Value, failure_count: Value) -> bool:
+                        success_count: Value, failure_count: Value) \
+            -> bool:
         """
         Check if conversion is successful.
         :param input_file: input file.
@@ -33,13 +34,14 @@ class ParallelProcessor:
         else:
             failure_count.value += 1
 
-        print(f'[{"SUCCESS" if result else "FAILURE"}] '
-              f'"{abspath(input_file)}"\n'
-              f'Success: {success_count.value} / {total_count}; '
+        erase_line = '\x1b[K'
+        print(f'{erase_line}[{"SUCCESS" if result else "FAILURE"}] '
+              f'"{abspath(input_file)}"')
+        print(f'Success: {success_count.value} / {total_count}; '
               f'Failure: {failure_count.value} / {total_count}',
               end='\r')
         if success_count.value + failure_count.value == total_count:
-            print()
+            print(erase_line, end='')
 
         return result
 
