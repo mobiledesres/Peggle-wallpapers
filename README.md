@@ -7,3 +7,5 @@ Requirements:
 
 * **JP2 to PNG**: requires package `libopenjp2-tools`.
 * **JPG to PNG**: requires package `imagemagick`.
+
+To download game: https://github.com/mobiledesres/Peggle
