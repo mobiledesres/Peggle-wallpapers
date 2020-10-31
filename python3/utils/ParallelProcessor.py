@@ -25,13 +25,17 @@ class ParallelProcessor:
         :return: True if conversion is successful; False otherwise.
         """
 
-        completed_process = convert_func(input_file, output_file)
-        return_code = completed_process.returncode
-        result = (return_code == 0)
+        result = False
+        try:
+            completed_process = convert_func(input_file, output_file)
+            return_code = completed_process.returncode
+            result = (return_code == 0)
 
-        if result:
-            success_count.value += 1
-        else:
+            if result:
+                success_count.value += 1
+            else:
+                failure_count.value += 1
+        except OSError:
             failure_count.value += 1
 
         erase_line = '\x1b[K'
@@ -78,5 +82,6 @@ class ParallelProcessor:
         for process in all_processes:
             process.join()
 
+        print()
         print(f'TOTAL SUCCESS: {success_count.value} / {num_conversions}')
         print(f'TOTAL FAILURE: {failure_count.value} / {num_conversions}')
